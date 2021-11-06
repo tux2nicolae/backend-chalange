@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/tux2nicolae/backend-chalange/issues"
   },
-  "homepage": "https://github.com/tux2nicolae/backend-chalange#readme"
+  "homepage": "https://github.com/tux2nicolae/backend-chalange#readme",
+  "dependencies": {
+    "sqlite3": "^5.0.2"
+  }
 }
