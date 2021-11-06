@@ -27,8 +27,18 @@ async function main() {
         }    
         yelpStmt.finalize();
 
+        // insert matches
+        const matches = matchingAlgoritm(googleData, yelpData);
+        const matchesStmt = db.prepare("INSERT INTO restaurantMatches(googleRestaurantId, yelpRestaurantId, certainty) VALUES (?, ?, ?)");
+        for (const match of matches) {
+            matchesStmt.run([match.googleRestaurant.id, match.yelpRestaurant.id, match.certainty]);
+        }    
+        matchesStmt.finalize();
 
-        matchingAlgoritm(googleData, yelpData);
+        // select 
+        db.each("SELECT googleRestaurantId, yelpRestaurantId, certainty FROM restaurantMatches", function(err, row) {
+            console.log(row);
+        });
     });
 
     db.close();

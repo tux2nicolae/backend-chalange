@@ -7,7 +7,7 @@ module.exports = async (path, callback) => {
     return new Promise(resolve => {
         fs.createReadStream(path)
         .pipe(csv())
-        .on('data', (data) => results.push(data))
+        .on('data', (data) => results.push({id: results.length + 1, ...data}))
         .on('end', () => {
             resolve(results);
         });    

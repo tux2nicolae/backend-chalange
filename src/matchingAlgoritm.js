@@ -87,6 +87,5 @@ module.exports = (googleData, yelpData) => {
     }
   }
 
-  console.log(results);
   return results;
 };
