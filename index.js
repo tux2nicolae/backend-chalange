@@ -3,12 +3,13 @@ var db = new sqlite3.Database(':memory:');
 
 const csvParse = require('./src/csvParser');
 const matchingAlgoritm = require('./src/matchingAlgoritm');
+const ObjectsToCsv = require('objects-to-csv');
 
 async function main() {
     const googleData = await csvParse('./data/Google.csv');
     const yelpData = await csvParse('./data/Yelp.csv');
 
-    db.serialize(function() {
+    db.serialize(async function() {
         db.run("CREATE TABLE googleRestaurants (name TEXT, phone TEXT, latitude REAL, longitude REAL)");
         db.run("CREATE TABLE yelpRestaurants (name TEXT, phone TEXT, latitude REAL, longitude REAL)");
         db.run("CREATE TABLE restaurantMatches (googleRestaurantId INTEGER NOT NULL, yelpRestaurantId INTEGER NOT NULL, certainty TEXT CHECK(certainty IN ('Highest','High','Medium')))");
@@ -36,8 +37,12 @@ async function main() {
         matchesStmt.finalize();
 
         // select 
+        const output = [];
         db.each("SELECT googleRestaurantId, yelpRestaurantId, certainty FROM restaurantMatches", function(err, row) {
-            console.log(row);
+            output.push(JSON.parse(JSON.stringify(row)));
+        }, async function () {
+            const csv = new ObjectsToCsv(output);
+            await csv.toDisk('./output.csv');
         });
     });
 
