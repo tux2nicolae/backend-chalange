@@ -12,7 +12,9 @@ async function main() {
 
     db.serialize(function() {
 
-    //   db.run("CREATE TABLE lorem (info TEXT)");
+    db.run("CREATE TABLE googleRestaurants (name TEXT, phone TEXT, latitude REAL, longitude REAL)");
+    db.run("CREATE TABLE yelpRestaurants (name TEXT, phone TEXT, latitude REAL, longitude REAL)");
+    db.run("CREATE TABLE restaurantMatches (googleRestaurantId INTEGER NOT NULL, yelpRestaurantId INTEGER NOT NULL, certainty TEXT CHECK(certainty IN ('Highest','High','Medium')))");
 
     //   var stmt = db.prepare("INSERT INTO lorem VALUES (?)");
     //   for (var i = 0; i < 10; i++) {
