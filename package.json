@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/tux2nicolae/backend-chalange#readme",
   "dependencies": {
+    "csv-parser": "^3.0.0",
     "sqlite3": "^5.0.2"
   }
 }
